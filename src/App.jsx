@@ -9,6 +9,7 @@ import AdminProductPage from './pages/admin/adminProductpage.jsx'
 import AdminOrderPage from './pages/admin/adminorderpage.jsx'
 import AdminCustomerPage from './pages/admin/admincustomerpage.jsx'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import AddProductForm from './pages/admin/addproductform.jsx';
 import { Toaster } from 'react-hot-toast';
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
           <Route path="/adminhome" element={<AdminHomePage />} >
             <Route path="dashboard" element={<AdminDashboard />} />
             <Route path="products" element={<AdminProductPage />} />
+            <Route path="products/addproducts" element={<AddProductForm />} />
             <Route path="orders" element={<AdminOrderPage />} />
             <Route path="customers" element={<AdminCustomerPage />} />
           </Route>

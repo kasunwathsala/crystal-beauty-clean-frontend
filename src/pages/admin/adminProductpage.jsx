@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 export default function AdminProductPage() {
   const [products, setProducts] = useState([]);
@@ -12,7 +13,14 @@ export default function AdminProductPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
+    <div className="min-h-screen bg-gray-50 p-8 relative">
+      <Link
+        to="addproducts"
+        title="Add Product"
+        className="absolute top-4 right-4 flex items-center justify-center bg-blue-600 text-white rounded-full w-12 h-12 text-2xl shadow hover:bg-blue-700 transition"
+      >
+        +
+      </Link>
       <h1 className="text-3xl font-bold mb-6 text-gray-800">
         Admin Product Page
       </h1>
