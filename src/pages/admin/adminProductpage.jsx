@@ -1,16 +1,21 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
 
 export default function AdminProductPage() {
   const [products, setProducts] = useState([]);
+  const [productsLoaded, setProductsLoaded] = useState(false);
 
   useEffect(() => {
-    axios.get("http://localhost:5000/api/products").then((response) => {
-      console.log(response.data);
-      setProducts(response.data);
-    });
-  }, []);
+    if (!productsLoaded) {
+      axios.get("http://localhost:5000/api/products").then((response) => {
+        console.log(response.data);
+        setProducts(response.data);
+        setProductsLoaded(true);
+      });
+    }
+  }, [productsLoaded]);
 
   return (
     <div className="min-h-screen bg-gray-50 p-8 relative">
@@ -55,7 +60,22 @@ export default function AdminProductPage() {
                     <button className="px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600 transition">
                       Edit
                     </button>
-                    <button className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition">
+                    <button className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition"
+                    onClick={() => {
+                      // alert(product.productId)
+                      const token = localStorage.getItem("token");
+                      axios.delete(`http://localhost:5000/api/products/${product.productId}`, {
+                        headers: { Authorization: `Bearer ${token}` }
+                      }).then((response) => {
+                        // alert("Product deleted successfully");
+                        console.log(response.data)
+                        toast.success("Product deleted successfully");
+                       setProductsLoaded(false);
+
+                      }).catch((error) => {
+                        console.error("Error deleting product:", error);
+                      });
+                    }}>
                       Delete
                     </button>
                   </td>

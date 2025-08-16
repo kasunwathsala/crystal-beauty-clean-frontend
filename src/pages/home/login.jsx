@@ -151,8 +151,10 @@ import axios from 'axios';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export default function LoginPage() {
+  const navigate = useNavigate();
 
   // const googleLogin = useGoogleLogin({
   //   onSuccess: (res)=>{
@@ -194,9 +196,10 @@ export default function LoginPage() {
         // alert(res.data.message)
         localStorage.setItem("token",res.data.token)
         if(res.data.user.type == "admin"){
-          window.location.href = "/adminhome"
+          // window.location.href = "/adminhome"
+          navigate("/adminhome")
         }else{
-          window.location.href = "/"
+          navigate("/")
         }
       }
     )
