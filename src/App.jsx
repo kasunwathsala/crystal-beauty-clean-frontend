@@ -2,7 +2,7 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
-import LoginPage from './pages/home/login.jsx'
+import Login from './pages/home/login.jsx'
 import AdminHomePage from './pages/home/adminhomepage.jsx'
 import AdminDashboard from './pages/admin/adminDashboard.jsx'
 import AdminProductPage from './pages/admin/adminProductpage.jsx'
@@ -20,7 +20,7 @@ function App() {
       <BrowserRouter>
       <Toaster position="top-right"/>
         <Routes>
-          <Route path="/" element={<LoginPage />} />
+          <Route path="/" element={<Login />} />
           <Route path="/adminhome" element={<AdminHomePage />} >
             <Route path="dashboard" element={<AdminDashboard />} />
             <Route path="products" element={<AdminProductPage />} />
