@@ -1,4 +1,5 @@
 
+import uploadMediaToSupabase from "../../utils/mediaUpload";
 import { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -10,7 +11,7 @@ export default function AddProductForm() {
     const [productId, setProductId] = useState("");
     const [productName, setProductName] = useState("");
     const [alternativeNames, setAlternativeNames] = useState("");
-    const [imageUrls, setImageUrls] = useState("");
+    const [imageFiles, setImageFiles] = useState([]);
     const [price, setPrice] = useState("");
     const [lastPrice, setLastPrice] = useState("");
     const [stock, setStock] = useState("");
@@ -20,7 +21,14 @@ export default function AddProductForm() {
     async function handleSubmit(e) {
         e.preventDefault();
         const altNames = alternativeNames.split(",");
-        const imgUrls = imageUrls.split(",");
+    // imageUrls variable is not used, file input is handled by imageFiles
+
+        const promisesArray = []
+        for (let i = 0; i < imageFiles.length; i++) {
+            promisesArray[i] = uploadMediaToSupabase(imageFiles[i])
+        }
+        const imgUrls = await Promise.all(promisesArray);
+        console.log("Image URLs:", imgUrls);
 
         const product = {
             productId: productId,
@@ -83,13 +91,12 @@ export default function AddProductForm() {
                     />
                 </div>
                 <div className="mb-4">
-                    <label className="block mb-1">Image URLs</label>
+                    <label className="block mb-1">Product Images</label>
                     <input
-                        value={imageUrls}
-                        onChange={e => setImageUrls(e.target.value)}
+                        onChange={e => setImageFiles(e.target.files)}
                         className="w-full border px-3 py-2 rounded"
-                        type="text"
-                        placeholder="Image URLs (comma separated)"
+                        type="file"
+                        multiple
                     />
                 </div>
                 <div className="mb-4">

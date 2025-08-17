@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import toast from "react-hot-toast";
 
 export default function AdminProductPage() {
@@ -10,8 +10,8 @@ export default function AdminProductPage() {
   useEffect(() => {
     if (!productsLoaded) {
       axios.get("http://localhost:5000/api/products").then((response) => {
-        console.log(response.data);
         setProducts(response.data);
+        console.log("Products loaded:", response.data);
         setProductsLoaded(true);
       });
     }
@@ -46,10 +46,7 @@ export default function AdminProductPage() {
             <tbody>
               {products.length > 0 ? (
                 products.map((product, index) => (
-                  <tr
-                    key={index}
-                    className="border-b hover:bg-gray-100 transition"
-                  >
+                  <tr key={index} className="border-b hover:bg-gray-100 transition">
                     <td className="p-3">{product.productId}</td>
                     <td className="p-3">{product.productName}</td>
                     <td className="p-3">Rs. {product.price}</td>
@@ -60,22 +57,23 @@ export default function AdminProductPage() {
                       <button className="px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600 transition">
                         Edit
                       </button>
-                      <button className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition"
+                      <button
+                        className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition"
                         onClick={() => {
-                          // alert(product.productId)
                           const token = localStorage.getItem("token");
-                          axios.delete(`http://localhost:5000/api/products/${product.productId}`, {
-                            headers: { Authorization: `Bearer ${token}` }
-                          }).then((response) => {
-                            // alert("Product deleted successfully");
-                            console.log(response.data)
-                            toast.success("Product deleted successfully");
-                            setProductsLoaded(false);
-
-                          }).catch((error) => {
-                            console.error("Error deleting product:", error);
-                          });
-                        }}>
+                          axios
+                            .delete(`http://localhost:5000/api/products/${product.productId}`, {
+                              headers: { Authorization: `Bearer ${token}` },
+                            })
+                            .then(() => {
+                              toast.success("Product deleted successfully");
+                              setProductsLoaded(false);
+                            })
+                            .catch((error) => {
+                              console.error("Error deleting product:", error);
+                            });
+                        }}
+                      >
                         Delete
                       </button>
                     </td>
@@ -83,10 +81,7 @@ export default function AdminProductPage() {
                 ))
               ) : (
                 <tr>
-                  <td
-                    colSpan="7"
-                    className="p-4 text-center text-gray-500 italic"
-                  >
+                  <td colSpan="7" className="p-4 text-center text-gray-500 italic">
                     No products found
                   </td>
                 </tr>
@@ -99,6 +94,7 @@ export default function AdminProductPage() {
           <div className="w-[60px] h-[60px] border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
         </div>
       )}
+      <Outlet />
     </div>
   );
 }
