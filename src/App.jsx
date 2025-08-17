@@ -11,6 +11,8 @@ import AdminCustomerPage from './pages/admin/admincustomerpage.jsx'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import AddProductForm from './pages/admin/addproductform.jsx';
 import { Toaster } from 'react-hot-toast';
+import HomePage from './pages/home/home.jsx';
+import Header from "./components/header";
 
 function App() {
   const [count, setCount] = useState(0)
@@ -28,6 +30,7 @@ function App() {
             <Route path="orders" element={<AdminOrderPage />} />
             <Route path="customers" element={<AdminCustomerPage />} />
           </Route>
+          <Route path="/home" element={<HomePage />} />
         </Routes>
       </BrowserRouter>
     </>

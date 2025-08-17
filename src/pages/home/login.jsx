@@ -199,7 +199,7 @@ export default function LoginPage() {
           // window.location.href = "/adminhome"
           navigate("/adminhome")
         }else{
-          navigate("/")
+          navigate("/home")
         }
       }
     )
